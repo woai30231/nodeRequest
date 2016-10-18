@@ -23,7 +23,7 @@
 
 	http.createServer(function(req,res){
 		//req和res分别代表请求对象和响应对象
-		res.write();
+		res.write("hello world!");
 		req.end();
 	}).listen("3333",function(){
 		console.log("服务器正在运行，端口为3333!");
@@ -31,3 +31,20 @@
 
 
 ```
+
+首先我们来看一下上面的代码能否正常运行呢？用下面的代码就可以启动服务器了！
+
+
+``` bash
+	node server.js
+```
+
+然后在浏览器中输入如下地址：
+
+``` bash
+  127.0.0.1:3333
+```
+
+我们看到浏览器正确打印了“hello world！”,截图如下：
+
+![]()
