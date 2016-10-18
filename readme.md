@@ -47,4 +47,4 @@
 
 我们看到浏览器正确打印了“hello world！”,截图如下：
 
-![]()
+![截图](https://github.com/woai30231/nodeRequest/blob/master/z_img/_1.png)
