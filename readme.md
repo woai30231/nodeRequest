@@ -5,9 +5,11 @@
 
 > demo
 >> server.js
+
 >> /public
 >>> jquery.js
 >>> index.js
+
 >> index.html 
 
 ## 首先，先用node来实现一个服务器吧!,代码如下：
