@@ -192,3 +192,7 @@ exports.getThingFromBaidu = function(http,callback){
 
  ![截图](https://github.com/woai30231/nodeRequest/blob/master/z_img/_4.png);
 
+
+ ## 结语
+
+上面的代码其实看着是臃肿的，很不好，不过还好这里实现了我们的需求，也大致知道里面需要掌握的一些东西，而且越是丑陋的代码，越能看出当时是怎么实现的，所以在这里不做进一步处理！后期如果用上框架，那么结构将会更直观、清晰一些！
