@@ -6,6 +6,8 @@
 > demo
 >> server.js
 
+>> getBaidu.js
+
 >> /public
 
 >>> jquery.js
@@ -87,4 +89,106 @@ $.ajax({
 
 原理用一幅图表示如下：
 
-![](https://github.com/woai30231/nodeRequest/blob/master/z_img/_3.png)
+![截图](https://github.com/woai30231/nodeRequest/blob/master/z_img/_3.png)
+
+
+## 完善代码
+
+
+我们把服务器入口文件server.js代码改动如下：
+
+
+``` javascript
+
+
+
+
+var http = require('http');//此模块为node核心模块，用于构建服务器
+var path = require('path');
+var fs = require('fs');
+var gB = require('./getBaidu.js')
+
+http.createServer(function(req,res){
+	//静态资源路径
+	//__dirname在node里面是个特殊的全局变量，它永远表示它所在文件的路径
+	var staticPath = path.join(__dirname,'/public/');//join方法的作用就是一个字符串的拼接
+	var body;
+	if(req.url == '/'){
+		fs.readFile('./index.html',function(err,data){
+			if(err) throw new Error(err);
+			body = data;
+			res.setHeader('Content-Length',Buffer.byteLength(body));
+			res.write(body);
+			res.end();
+		});
+	}else if(req.url == '/favicon.ico'){
+		fs.readFile('./favicon.ico',function(err,data){
+			if(err) throw new Error(err);
+			body = data;
+			res.setHeader('Content-Length',Buffer.byteLength(body));
+			res.write(body);
+			res.end();
+		});
+	}else if(req.url == '/baidu/'){
+		gB.getThingFromBaidu(http,function(data){
+			body = data;
+			res.setHeader('Content-Length',Buffer.byteLength(body));
+			res.write(body);
+			res.end();
+		});
+	}else{
+		var filename = path.join(staticPath,req.url);
+		console.log(filename);
+		fs.readFile(filename,function(err,data){
+			if(err) throw new Error(err);
+			body = data;
+			res.setHeader('Content-Length',Buffer.byteLength(body));
+			res.write(body);
+			res.end();
+		});
+		
+	};
+}).listen("3333",function(){
+	console.log("服务器正在运行，端口为3333!");
+});
+
+
+
+```
+
+在来建立一个模块getBaidu，用来实请求百度首页源码，代码如下:
+
+``` javascript
+
+var config = {
+	method : 'GET',
+	hostname : 'www.baidu.com',
+	path : '/'
+};
+exports.getThingFromBaidu = function(http,callback){
+	var req = http.request(config,function(res){
+		var returnData = '';
+		res.setEncoding("utf8");
+		res.on('data',function(churk){
+			returnData += churk;
+		}).on("end",function(){
+			console.log("there is no more things to be gotten!");
+			callback(returnData);//返回一个回调函数
+		});
+	});
+	req.on('error',function(e){
+		console.log(e.msg);
+	});
+	req.write('');//为一个字符串或者object
+	req.end();
+};
+
+```
+ 
+
+ ## 测试结果
+
+ 我们打开浏览器，看到正确打印了百度的首页源码，说明请求是成功的！截图如下：
+
+ ![截图](https://github.com/woai30231/nodeRequest/blob/master/z_img/_4.png);
+
