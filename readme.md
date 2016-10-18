@@ -7,7 +7,9 @@
 >> server.js
 
 >> /public
+
 >>> jquery.js
+
 >>> index.js
 
 >> index.html 
